@@ -3,6 +3,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Container, Nav, Form, Row, Col, Button } from 'react-bootstrap';
 import { useState } from 'react';
+import ProductCard from './productCard';
 
 // Create the user interface (Navbar,  Form to create products, product card)
 // Setup supabase, create a table for our products
@@ -43,6 +44,13 @@ function App() {
             />
             <br></br>
             <Button>Create Product in Superbase DB</Button>
+          </Col>
+        </Row>
+        <br></br>
+        <h3>Current Database Items</h3>
+        <Row xs={1} lg={3} className="g-4">
+          <Col>
+            <ProductCard />
           </Col>
         </Row>
       </Container>
