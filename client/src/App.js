@@ -11,7 +11,7 @@ import ProductCard from './productCard';
 
 function App() {
   const [ name, setName ] = useState("");
-  const [ description, setDescription ] = useState();
+  const [ description, setDescription ] = useState("");
 
   console.log(name);
   console.log(description);

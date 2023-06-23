@@ -2,9 +2,9 @@ import {Card, Button, Form} from 'react-bootstrap';
 import { useState } from 'react';
 
 function ProductCard() {
-    const [ editing, setEditing] = useState(false);
+    const [ editing, setEditing ] = useState(false);
     const [ name, setName ] = useState("");
-    const [ description, setDescription ] = useState();
+    const [ description, setDescription ] = useState("");
 
     return (
         <Card style={{width: "18rem"}}>
@@ -14,7 +14,7 @@ function ProductCard() {
                     <Card.Title>Product Name</Card.Title>
                     <Card.Text>Product Description</Card.Text>
                     <Button variant="danger">Delete Product</Button>
-                    <Button variant="secondary">Edit Product</Button>
+                    <Button variant="secondary" onClick={() => setEditing(true)}>Edit Product</Button>
                     </>
                 :
                 <>
