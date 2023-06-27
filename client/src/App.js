@@ -2,8 +2,9 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Container, Nav, Form, Row, Col, Button } from 'react-bootstrap';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ProductCard from './productCard';
+import { supabase } from './supabaseClient';
 
 // Create the user interface (Navbar,  Form to create products, product card)
 // Setup supabase, create a table for our products
@@ -12,9 +13,48 @@ import ProductCard from './productCard';
 function App() {
   const [ name, setName ] = useState("");
   const [ description, setDescription ] = useState("");
+  const [ products, setProducts] = useState([]);
 
   console.log(name);
   console.log(description);
+
+  useEffect(() => {
+    getProducts();
+  }, [])
+
+  async function getProducts() {
+    try {
+      const { data, error } = await supabase
+        .from("products")
+        .select("*")
+        .limit(10)
+      if (error) throw error;
+      if (data != null) {
+        setProducts(data); // [product1, product2, product3]
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  }
+
+  async function createProduct() {
+    try {
+      const { data, error } = await supabase
+        .from("products")
+        .insert({
+          name: name,
+          description : description
+        })
+        .single()
+
+      if (error) throw error;
+      window.location.reload();
+    } catch (error) {
+      alert(error.message);
+    }
+  }
+  
+  console.log(products);
 
   return (
     <>
@@ -43,15 +83,17 @@ function App() {
               onChange={(e) => setDescription(e.target.value)}
             />
             <br></br>
-            <Button>Create Product in Superbase DB</Button>
+            <Button onClick={() => createProduct()}>Create Product in Superbase DB</Button>
           </Col>
         </Row>
         <br></br>
         <h3>Current Database Items</h3>
         <Row xs={1} lg={3} className="g-4">
-          <Col>
-            <ProductCard />
-          </Col>
+          {products.map((product) => (
+            <Col>
+              <ProductCard product={product} /> {/* product={product} */}
+            </Col>
+          ))}
         </Row>
       </Container>
     </>
